@@ -2,6 +2,8 @@
 
 A Python-based file management system designed to help organise and clean up accumulated files, particularly the Downloads folder. Integrates seamlessly with Obsidian for weekly review workflows.
 
+This is a personal productivity project, learning in public and shared with the PKM community.  Written with the help of Claude Code.
+
 ## Overview
 
 Over the years, it's easy to accumulate thousands of files across various folders, start organisation processes, forget how they worked, and then start again. This system provides a systematic approach to file analysis and organisation, generating reports that can be integrated into your Obsidian vault for regular review and action.
