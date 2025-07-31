@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Downloads Weekly Review - Generate Obsidian-formatted markdown for weekly file review
 Outputs to stdout for Templater integration
@@ -9,6 +10,13 @@ import sys
 from pathlib import Path
 from datetime import datetime, timedelta
 import argparse
+
+# Configure UTF-8 encoding for Windows
+if os.name == 'nt':  # Windows
+    import codecs
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+    if hasattr(sys.stderr, 'buffer'):
+        sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
 
 
 def format_file_size(size_bytes):
@@ -210,7 +218,7 @@ def generate_markdown_report(analysis):
     print()
     
     # Top 15 Largest Files
-    print("## Top 15 Largest Files")
+    print("## 🔥 Top 15 Largest Files")
     print()
     if analysis['largest_files']:
         print("| File | Size | Date |")
@@ -224,7 +232,7 @@ def generate_markdown_report(analysis):
     print()
     
     # Files from Last Week
-    print("## Files from Last Week")
+    print("## 📅 Files from Last Week")
     print()
     if analysis['recent_files']:
         print(f"*{len(analysis['recent_files'])} files modified in the last 7 days*")
@@ -239,7 +247,7 @@ def generate_markdown_report(analysis):
     print()
     
     # Subfolders
-    print("## Subfolders")
+    print("## 📁 Subfolders")
     print()
     if analysis['subfolders']:
         print("| Folder | Files | Total Size | Created |")
@@ -252,7 +260,7 @@ def generate_markdown_report(analysis):
     print()
     
     # 15 Oldest Files
-    print("## 15 Oldest Files")
+    print("## 🕰️ 15 Oldest Files")
     print()
     if analysis['oldest_files']:
         print("| File | Size | Date |")
