@@ -31,7 +31,7 @@ Over the years, it's easy to accumulate thousands of files across various folder
 
 2. **Add User Functions**
    - Click "Add New User Function"
-   - **Function Name**: `weekly_downloads` (or preferred name)
+   - **Function Name**: `echo` (keep short and simple...had issue with long name)
    - **System Command**: `python J:/_learning/claude/file-census/downloads_weekly_review.py`
    - Save settings and restart Obsidian
 
@@ -39,7 +39,7 @@ Over the years, it's easy to accumulate thousands of files across various folder
    ```markdown
    # Weekly Downloads Review - <% tp.date.now("YYYY-MM-DD") %>
    
-   <% tp.user.weekly_downloads() %>
+   <% tp.user.echo() %>
    
    ## Actions Taken
    - [ ] Review large files
