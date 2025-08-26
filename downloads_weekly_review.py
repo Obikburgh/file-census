@@ -7,6 +7,8 @@ Outputs to stdout for Templater integration
 
 import os
 import sys
+import subprocess
+import platform
 from pathlib import Path
 from datetime import datetime, timedelta
 import argparse
@@ -215,6 +217,15 @@ def generate_markdown_report(analysis):
     print(f"- **Date range:** {analysis['oldest_date']} to {analysis['newest_date']}")
     print(f"- **Total size:** {analysis['total_size_formatted']}")
     print(f"- **Average file size:** {analysis['average_size_formatted']}")
+    print()
+    
+    # Action button to open Downloads folder
+    downloads_path = get_downloads_folder()
+    print(f'```button')
+    print(f'name Open Downloads Folder 📁')
+    print(f'type link')
+    print(f'action file:///{downloads_path}')
+    print(f'```')
     print()
     
     # Top 15 Largest Files
