@@ -2,6 +2,8 @@
 
 A Python-based file management system designed to help organise and clean up accumulated files, particularly the Downloads folder. Integrates seamlessly with Obsidian for weekly review workflows.
 
+This is a personal productivity project, learning in public and shared with the PKM community.  Written with the help of Claude Code.
+
 ## Overview
 
 Over the years, it's easy to accumulate thousands of files across various folders, start organisation processes, forget how they worked, and then start again. This system provides a systematic approach to file analysis and organisation, generating reports that can be integrated into your Obsidian vault for regular review and action.
@@ -14,6 +16,15 @@ Over the years, it's easy to accumulate thousands of files across various folder
 - **Subfolder analysis** with size and file count summaries
 - **Weekly review workflows** with actionable insights
 - **Cross-drive compatibility** (works with any drive/folder structure)
+
+## Quick Start - Weekly Review Only
+
+**For the core weekly review workflow, you only need:**
+- `downloads_weekly_review.py` - The main script
+- `hello.py` - For testing setup
+- Obsidian with Templater plugin
+
+**Skip to:** [Obsidian Setup](#obsidian-setup-with-templater) and [downloads_weekly_review.py](#downloads_weekly_reviewpy) sections.
 
 ## Obsidian Setup with Templater
 
@@ -52,37 +63,9 @@ Over the years, it's easy to accumulate thousands of files across various folder
    - Run Templater: Replace templates in active file (Ctrl+P)
    - Review the generated analysis and take action
 
-## File Descriptions
+## Core Files
 
-### file_census.py
-**Purpose**: Basic file system scanner that creates comprehensive CSV output.
-
-**Features**:
-- Scans specified directory recursively
-- Outputs: filename, path, size, modification date, file extension
-- CSV format suitable for spreadsheet analysis
-- Handles large directories efficiently
-
-**Usage**: 
-```bash
-python file_census.py
-```
-
-### summary_report.py
-**Purpose**: Converts CSV data into readable Markdown reports.
-
-**Features**:
-- Reads CSV output from file_census.py
-- Creates formatted Markdown summaries
-- Basic statistics and file type analysis
-- Obsidian-ready output format
-
-**Usage**:
-```bash
-python summary_report.py
-```
-
-### downloads_weekly_review.py
+### downloads_weekly_review.py ⭐ **MAIN SCRIPT**
 **Purpose**: Comprehensive Downloads folder analysis designed for weekly reviews.
 
 **Features**:
@@ -111,16 +94,16 @@ python downloads_weekly_review.py
 - Total size: 2.3 GB
 - Average file size: 2.9 MB
 
-## Top 15 Largest Files
+## 🔥 Top 15 Largest Files
 [Detailed file list with sizes]
 
-## Files from Last Week
+## 📅 Files from Last Week
 [Recent downloads for review]
 
-## 15 Oldest Files
+## 🕰️ 15 Oldest Files
 [Ancient files that might need cleanup]
 
-## Subfolder Analysis
+## 📁 Subfolder Analysis
 [Breakdown of subdirectories]
 ```
 
@@ -136,6 +119,42 @@ python downloads_weekly_review.py
 ```bash
 python hello.py
 ```
+
+## Supplemental Files (Development Journey)
+
+*These files were created during the development process and are not required for the weekly review workflow. They're included for users who want alternative approaches or to understand the evolution of the project.*
+
+### file_census.py
+**Purpose**: Basic file system scanner that creates comprehensive CSV output.
+
+**Features**:
+- Scans specified directory recursively
+- Outputs: filename, path, size, modification date, file extension
+- CSV format suitable for spreadsheet analysis
+- Handles large directories efficiently
+
+**Usage**: 
+```bash
+python file_census.py
+```
+
+**Note**: This was the initial approach before developing the integrated Markdown output. Use this if you prefer CSV data for external analysis.
+
+### summary_report.py
+**Purpose**: Converts CSV data into readable Markdown reports.
+
+**Features**:
+- Reads CSV output from file_census.py
+- Creates formatted Markdown summaries
+- Basic statistics and file type analysis
+- Obsidian-ready output format
+
+**Usage**:
+```bash
+python summary_report.py
+```
+
+**Note**: This bridges the gap between CSV output and Markdown reports. The functionality has been integrated into `downloads_weekly_review.py` for a streamlined workflow.
 
 ## Installation
 
@@ -166,18 +185,23 @@ python hello.py
 - Obsidian (optional, for integration features)
 - Templater plugin (optional, for weekly automation)
 
-## Future Enhancements
+## Possible Future Enhancements
 
-- [ ] File duplicate detection
-- [ ] Automatic file organisation rules
-- [ ] Integration with additional note-taking systems
-- [ ] GUI interface for non-technical users
-- [ ] Configurable scan parameters
 - [ ] Action buttons for direct file operations
+- [ ] Automatic file organisation rules
+- [ ] Configurable scan parameters
+- [ ] File duplicate detection
+
 
 ## Contributing
 
-This is a personal productivity project, but suggestions and improvements are welcome. Please open issues or submit pull requests.
+This is a personal productivity project, learning in public and shared with the PKM community. If you have suggestions or improvements:
+
+- **Open an issue** to discuss ideas or report problems
+- **Fork the repository** to create your own version
+- **Share your modifications** with the community
+
+Feel free to adapt this for your own file organisation needs!
 
 ## License
 
