@@ -256,39 +256,51 @@ def generate_markdown_report(analysis):
     if analysis['recent_files']:
         print(f"*{len(analysis['recent_files'])} files modified in the last 7 days*")
         print()
-        print("| File | Size | Date |")
-        print("|------|------|------|")
+        print("| File | Size | Date | Delete |")
+        print("|------|------|------|--------|")
         for file_info in analysis['recent_files']:
             filename = truncate_filename(file_info['name']).replace('|', '\\|')
-            print(f"| {filename} | {file_info['size_formatted']} | {file_info['modified_formatted']} |")
+            # Create delete link for recent files
+            file_path_clean = file_info['path'].replace('\\', '/')
+            file_path_encoded = quote(file_path_clean, safe='/:')
+            delete_link = f"[🗑️](obsidian://shell-commands/?execute=19bemkchg3&_file_path={file_path_encoded})"
+            print(f"| {filename} | {file_info['size_formatted']} | {file_info['modified_formatted']} | {delete_link} |")
     else:
         print("*No files modified in the last 7 days*")
-    print()
-    
-    # Subfolders
-    print("## 📁 Subfolders")
-    print()
-    if analysis['subfolders']:
-        print("| Folder | Files | Total Size | Created |")
-        print("|--------|-------|------------|---------|")
-        for folder_info in analysis['subfolders']:
-            folder_name = folder_info['name'].replace('|', '\\|')
-            print(f"| {folder_name} | {folder_info['file_count']:,} | {folder_info['total_size_formatted']} | {folder_info['created_formatted']} |")
-    else:
-        print("*No subfolders found*")
     print()
     
     # 15 Oldest Files
     print("## 🕰️ 15 Oldest Files")
     print()
     if analysis['oldest_files']:
-        print("| File | Size | Date |")
-        print("|------|------|------|")
+        print("| File | Size | Date | Delete |")
+        print("|------|------|------|--------|")
         for file_info in analysis['oldest_files']:
             filename = truncate_filename(file_info['name']).replace('|', '\\|')
-            print(f"| {filename} | {file_info['size_formatted']} | {file_info['modified_formatted']} |")
+            # Create delete link for oldest files
+            file_path_clean = file_info['path'].replace('\\', '/')
+            file_path_encoded = quote(file_path_clean, safe='/:')
+            delete_link = f"[🗑️](obsidian://shell-commands/?execute=19bemkchg3&_file_path={file_path_encoded})"
+            print(f"| {filename} | {file_info['size_formatted']} | {file_info['modified_formatted']} | {delete_link} |")
     else:
         print("*No files found*")
+    print()
+    
+    # Subfolders
+    print("## 📁 Subfolders")
+    print()
+    if analysis['subfolders']:
+        print("| Folder | Files | Total Size | Created | Delete |")
+        print("|--------|-------|------------|---------|--------|")
+        for folder_info in analysis['subfolders']:
+            folder_name = folder_info['name'].replace('|', '\\|')
+            # Create delete link for subfolders (uses Delete-Folder command)
+            folder_path_clean = folder_info['path'].replace('\\', '/')
+            folder_path_encoded = quote(folder_path_clean, safe='/:')
+            delete_link = f"[🗑️](obsidian://shell-commands/?execute=1m50a7pkiu&_file_path={folder_path_encoded})"
+            print(f"| {folder_name} | {folder_info['file_count']:,} | {folder_info['total_size_formatted']} | {folder_info['created_formatted']} | {delete_link} |")
+    else:
+        print("*No subfolders found*")
     print()
 
 
