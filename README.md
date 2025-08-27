@@ -30,6 +30,7 @@ Over the years, it's easy to accumulate thousands of files across various folder
 
 ### Prerequisites
 - Obsidian with Templater plugin installed
+- **Shell Commands plugin** (for delete functionality)
 - Python installed and accessible from command line
 - File Census scripts in accessible location
 
@@ -63,6 +64,56 @@ Over the years, it's easy to accumulate thousands of files across various folder
    - Run Templater: Replace templates in active file (Ctrl+P)
    - Review the generated analysis and take action
 
+### Shell Commands Plugin Setup (for Delete Functionality)
+
+The weekly review now includes **delete buttons (🗑️)** in every file table that send files/folders to the Recycle Bin safely.
+
+#### Step 1: Install Shell Commands Plugin
+1. In Obsidian: Settings → Community Plugins → Browse
+2. Search for "Shell commands" by Taitava
+3. Install and enable the plugin
+
+#### Step 2: Create Delete Commands
+
+**Command 1: Delete Files**
+1. Go to Settings → Shell Commands
+2. Click "New shell command"
+3. **Alias**: `Delete-File`
+4. **Shell command**: 
+   ```powershell
+   powershell -Command "Add-Type -AssemblyName Microsoft.VisualBasic;[Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile('{{_file_path}}', [Microsoft.VisualBasic.FileIO.UIOption]::OnlyErrorDialogs,[Microsoft.VisualBasic.FileIO.RecycleOption]::SendToRecycleBin)"
+   ```
+5. **Create custom variable**: `{{_file_path}}` (leave value empty)
+6. **Enable "Ask confirmation before execution"** (recommended for safety)
+7. **Copy the Shell command ID** (e.g., `19bemkchg3`) - you'll need this
+
+**Command 2: Delete Folders**
+1. Click "New shell command" again
+2. **Alias**: `Delete-Folder`  
+3. **Shell command**:
+   ```powershell
+   powershell -Command "Add-Type -AssemblyName Microsoft.VisualBasic;[Microsoft.VisualBasic.FileIO.FileSystem]::DeleteDirectory('{{_file_path}}', [Microsoft.VisualBasic.FileIO.UIOption]::OnlyErrorDialogs,[Microsoft.VisualBasic.FileIO.RecycleOption]::SendToRecycleBin)"
+   ```
+4. **Create custom variable**: `{{_file_path}}` (leave value empty)
+5. **Enable "Ask confirmation before execution"** (recommended for safety)
+6. **Copy the Shell command ID** (e.g., `1m50a7pkiu`) - you'll need this
+
+#### Step 3: Update Script with Your Command IDs
+If your Shell command IDs differ from the defaults, update `downloads_weekly_review.py`:
+
+```python
+# Around line 243 (for files):
+delete_link = f"[🗑️](obsidian://shell-commands/?execute=YOUR_FILE_COMMAND_ID&_file_path={file_path_encoded})"
+
+# Around line 283 (for folders):  
+delete_link = f"[🗑️](obsidian://shell-commands/?execute=YOUR_FOLDER_COMMAND_ID&_file_path={folder_path_encoded})"
+```
+
+#### Safety Features
+- **Recycle Bin**: Files/folders go to Windows Recycle Bin (fully recoverable)
+- **Confirmation prompts**: Optional safety confirmation before deletion
+- **URL encoding**: Handles special characters in filenames automatically
+
 ## Core Files
 
 ### downloads_weekly_review.py ⭐ **MAIN SCRIPT**
@@ -70,6 +121,7 @@ Over the years, it's easy to accumulate thousands of files across various folder
 
 **Features**:
 - **Summary Statistics**: Total files, date range, total size, average file size
+- **Open Downloads Folder Button**: Direct file explorer access
 - **Top 15 Largest Files**: Identifies space hogs with sizes and dates
 - **Recent Files**: All files from the last 7 days for quick review
 - **15 Oldest Files**: Finds forgotten files that might need cleanup
@@ -77,6 +129,7 @@ Over the years, it's easy to accumulate thousands of files across various folder
   - Lists all subfolders in Downloads
   - File count and total size per subfolder
   - Most recent file date in each subfolder
+- **Delete Functionality**: 🗑️ buttons in every table for safe file/folder deletion to Recycle Bin
 - **Direct Markdown Output**: Ready for Obsidian/Templater integration
 
 **Usage**:
@@ -94,17 +147,27 @@ python downloads_weekly_review.py
 - Total size: 2.3 GB
 - Average file size: 2.9 MB
 
+[Open Downloads Folder 📁] <- Button to open file explorer
+
 ## 🔥 Top 15 Largest Files
-[Detailed file list with sizes]
+| File | Size | Date | Delete |
+|------|------|------|--------|
+| large-file.zip | 245.3 MB | 2024-08-15 14:30 | [🗑️] |
 
 ## 📅 Files from Last Week
-[Recent downloads for review]
+| File | Size | Date | Delete |
+|------|------|------|--------|
+| recent-download.pdf | 2.1 MB | 2024-08-26 09:15 | [🗑️] |
 
 ## 🕰️ 15 Oldest Files
-[Ancient files that might need cleanup]
+| File | Size | Date | Delete |
+|------|------|------|--------|
+| ancient-file.doc | 1.2 MB | 2020-03-15 10:00 | [🗑️] |
 
-## 📁 Subfolder Analysis
-[Breakdown of subdirectories]
+## 📁 Subfolders
+| Folder | Files | Total Size | Created | Delete |
+|--------|-------|------------|---------|--------|
+| Old Projects | 45 | 1.2 GB | 2023-05-10 15:20 | [🗑️] |
 ```
 
 ### hello.py
@@ -184,13 +247,16 @@ python summary_report.py
 - Windows, macOS, or Linux
 - Obsidian (optional, for integration features)
 - Templater plugin (optional, for weekly automation)
+- Shell Commands plugin (optional, for delete functionality)
 
 ## Possible Future Enhancements
 
-- [ ] Action buttons for direct file operations
+- [x] ~~Action buttons for direct file operations~~ ✅ **COMPLETED** - Delete buttons added
 - [ ] Automatic file organisation rules
 - [ ] Configurable scan parameters
 - [ ] File duplicate detection
+- [ ] Bulk operations (select multiple files)
+- [ ] Move/copy operations (not just delete)
 
 
 ## Contributing
