@@ -114,6 +114,9 @@ delete_link = f"[🗑️](obsidian://shell-commands/?execute=YOUR_FOLDER_COMMAND
 - **Confirmation prompts**: Optional safety confirmation before deletion
 - **URL encoding**: Handles special characters in filenames automatically
 
+#### Known Limitations
+- **Special Unicode characters**: Files with special Unicode characters (like curly apostrophes `'`) may need to be renamed before using delete buttons. Simply rename the file to use standard characters if you encounter issues.
+
 ## Core Files
 
 ### downloads_weekly_review.py ⭐ **MAIN SCRIPT**
