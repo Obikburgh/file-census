@@ -12,6 +12,7 @@ import platform
 from pathlib import Path
 from datetime import datetime, timedelta
 import argparse
+from urllib.parse import quote
 
 # Configure UTF-8 encoding for Windows
 if os.name == 'nt':  # Windows
@@ -232,16 +233,23 @@ def generate_markdown_report(analysis):
     print("## 🔥 Top 15 Largest Files")
     print()
     if analysis['largest_files']:
-        print("| File | Size | Date |")
-        print("|------|------|------|")
+        print("| File | Size | Date | Delete |")
+        print("|------|------|------|--------|")
         for file_info in analysis['largest_files']:
             # Truncate and escape pipes in filename for markdown table
             filename = truncate_filename(file_info['name']).replace('|', '\\|')
-            print(f"| {filename} | {file_info['size_formatted']} | {file_info['modified_formatted']} |")
+            # Create URI link for deletion using Shell Commands with custom variable
+            file_path_clean = file_info['path'].replace('\\', '/')
+            # URL encode the file path to handle special characters like brackets
+            file_path_encoded = quote(file_path_clean, safe='/:')
+            # Use the working shell command ID (19bemkchg3) with _file_path parameter
+            delete_link = f"[🗑️](obsidian://shell-commands/?execute=19bemkchg3&_file_path={file_path_encoded})"
+            print(f"| {filename} | {file_info['size_formatted']} | {file_info['modified_formatted']} | {delete_link} |")
     else:
         print("*No files found*")
     print()
-    
+  
+   
     # Files from Last Week
     print("## 📅 Files from Last Week")
     print()
